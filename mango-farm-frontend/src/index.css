@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --color-oat: #F0E6DA;
+  --color-olive: #415B06;
+  --color-olive-light: #5a7a0a;
+  --color-white: #FFFFFF;
+  --color-black: #111111;
+  --color-border: rgba(65, 91, 6, 0.15);
+  
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Inter', sans-serif;
+  
+  --container-padding: 2rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-oat);
+  color: var(--color-olive);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+.container {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.heading-xl {
+  font-family: var(--font-serif);
+  font-size: clamp(4rem, 10vw, 9rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  color: var(--color-olive);
+}
+
+.heading-lg {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-olive);
+}
+
+.heading-md {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background-color: var(--color-olive);
+  color: var(--color-oat);
+  padding: 1.25rem 3rem;
+  border-radius: 0;
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-olive);
+}
+
+.btn-primary:hover {
+  background-color: transparent;
+  color: var(--color-olive);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-olive);
+  padding: 1.25rem 3rem;
+  border-radius: 0;
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.4s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-olive);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-olive);
+  color: var(--color-oat);
+}

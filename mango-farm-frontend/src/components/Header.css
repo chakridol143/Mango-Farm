@@ -1,0 +1,99 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 2rem 0;
+  transition: padding 0.5s ease, background 0.5s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.header.scrolled {
+  background: rgba(240, 230, 218, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.header-right {
+  justify-content: flex-end;
+  gap: 2rem;
+}
+
+.editorial-logo {
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  color: var(--color-olive);
+}
+
+.nav-links {
+  display: none;
+}
+
+.nav-link-desktop {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+  }
+  
+  .nav-links a, .nav-link-desktop, .cart-btn {
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-olive);
+    transition: opacity 0.3s ease;
+  }
+  
+  .nav-links a:hover, .nav-link-desktop:hover, .cart-btn:hover {
+    opacity: 0.6;
+  }
+  
+  .nav-link-desktop {
+    display: block;
+  }
+  
+  .menu-btn {
+    display: none;
+  }
+}
+
+.cart-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-olive);
+}
+
+.cart-count {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 600;
+}
+
+.menu-btn {
+  color: var(--color-olive);
+}

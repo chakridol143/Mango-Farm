@@ -1,0 +1,34 @@
+[
+  {
+    "id": "prod_1",
+    "name": "Alphonso Premium Box",
+    "description": "A luxurious wooden crate filled with perfect, ripe, glowing Alphonso mangoes. Hand-picked from our sun-kissed farms for the ultimate sweetness.",
+    "price": 49.99,
+    "image": "/images/box.png",
+    "category": "Fresh Fruit"
+  },
+  {
+    "id": "prod_2",
+    "name": "Artisan Mango Jam",
+    "description": "Sleek, premium artisan glass jar of glowing golden mango jam. Made with 100% organic mangoes and no artificial preservatives.",
+    "price": 14.99,
+    "image": "/images/jam.png",
+    "category": "Pantry"
+  },
+  {
+    "id": "prod_3",
+    "name": "Sliced Mango Platter",
+    "description": "Perfectly sliced, ready-to-eat Alphonso mangoes served fresh. A vivid contrast of flavor and aesthetics.",
+    "price": 24.99,
+    "image": "/images/sliced.png",
+    "category": "Ready to Eat"
+  },
+  {
+    "id": "prod_4",
+    "name": "Farm Fresh Harvest",
+    "description": "A vibrant collection of the finest mangoes straight from the heart of our farms. Rich greens and bright oranges.",
+    "price": 39.99,
+    "image": "/images/hero.png",
+    "category": "Fresh Fruit"
+  }
+]
