@@ -154,6 +154,6 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
 
 const PORT = Number(process.env.PORT) || 3000;
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log("Mango Farm backend running on port", PORT);
+app.listen(PORT, "::", () => {
+  console.log("Mango Farm backend running on port", PORT, "bound to :: (IPv6/IPv4)");
 });
