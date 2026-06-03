@@ -15,7 +15,11 @@ function resolveServiceAccountPath(rawPath: string): string {
 }
 
 function normalizePrivateKey(value: string): string {
-  return value.replace(/\\n/g, "\n");
+  let normalized = value.replace(/\\n/g, "\n");
+  if (normalized.startsWith('"') && normalized.endsWith('"')) {
+    normalized = normalized.slice(1, -1);
+  }
+  return normalized;
 }
 
 function parseServiceAccountJson(): Record<string, unknown> | null {
