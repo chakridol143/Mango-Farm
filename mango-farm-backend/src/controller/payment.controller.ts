@@ -53,6 +53,15 @@ export const createPaymentOrder = async (req: AuthRequest, res: Response) => {
     if (safeClientMessages.has(message)) {
       return res.status(400).json({ message });
     }
+    // Razorpay not configured yet, or invalid/placeholder API keys → degrade gracefully.
+    const isRazorpayConfigError =
+      message.includes("Razorpay is not configured") || error?.statusCode === 401;
+    if (isRazorpayConfigError) {
+      return res.status(503).json({
+        message:
+          "Online payment is temporarily unavailable. Please choose Cash on Delivery or try again shortly.",
+      });
+    }
     return res.status(500).json({ message: "Unable to create payment order" });
   }
 };

@@ -1,67 +1,79 @@
 .footer {
-  background-color: var(--color-olive);
-  color: var(--color-oat);
-  padding: 6rem 0 2rem;
-  margin-top: 4rem;
+  background: var(--bg-sand);
+  color: var(--ink-charcoal);
+  padding-top: 5rem;
+  margin-top: 0;
+  border-top: 1px solid rgba(40, 54, 24, 0.05);
 }
 
-.footer-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 4rem;
+.footer-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  margin-bottom: 4rem;
 }
 
 @media (min-width: 768px) {
-  .footer-content {
-    flex-direction: row;
-    justify-content: space-between;
-    text-align: left;
-    align-items: flex-start;
+  .footer-container {
+    grid-template-columns: 1.5fr 2fr;
   }
 }
 
-.footer-logo img {
-  height: 180px;
+.footer-logo {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s var(--ease-elegant);
+}
+
+.footer-logo:hover {
+  transform: scale(1.03);
+}
+
+.footer-logo-img {
+  height: 120px;
+  width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 0 20px rgba(0,0,0,0.1));
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.1));
+}
+
+.footer-desc {
+  color: var(--ink-slate);
+  max-width: 300px;
+  line-height: 1.6;
 }
 
 .footer-links {
-  display: flex;
-  gap: 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
 }
 
-.footer-links h4 {
-  font-size: 1.2rem;
-  margin-bottom: 1.5rem;
-  color: var(--color-oat);
-  font-family: var(--font-serif);
+.link-group h3 {
+  color: var(--leaf-dark);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-weight: 600;
+  margin-bottom: 1.5rem;
 }
 
-.footer-links ul {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.link-group a {
+  display: block;
+  color: var(--ink-slate);
+  margin-bottom: 0.75rem;
+  transition: color 0.2s, padding-left 0.3s;
+  font-size: 0.95rem;
 }
 
-.footer-links a {
-  color: rgba(240, 230, 218, 0.7);
-  transition: color 0.3s ease;
-}
-
-.footer-links a:hover {
-  color: var(--color-oat);
+.link-group a:hover {
+  color: var(--mango-primary);
+  padding-left: 0.25rem;
 }
 
 .footer-bottom {
+  border-top: 1px solid rgba(40, 54, 24, 0.1);
+  padding: 1.5rem 0;
   text-align: center;
-  margin-top: 4rem;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(240, 230, 218, 0.2);
-  color: rgba(240, 230, 218, 0.5);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
 }

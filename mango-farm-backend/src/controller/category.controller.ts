@@ -5,7 +5,7 @@ import { withCache } from "../config/cache";
 const FIVE_MIN = 5 * 60 * 1000;
 const PUBLIC_CACHE_HEADER = "public, max-age=60, stale-while-revalidate=300";
 
-const parsePositiveInt = (value: string): number | null => {
+const parsePositiveInt = (value: unknown): number | null => {
   const parsed = Number(value);
   if (!Number.isInteger(parsed) || parsed <= 0) {
     return null;

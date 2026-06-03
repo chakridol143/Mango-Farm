@@ -1,1 +1,42 @@
-/* Custom App styles if needed, currently empty to inherit from index.css */
+/* ═══════════════════════════════════════════
+   App — Global transitions and page layout
+   ═══════════════════════════════════════════ */
+
+main {
+  min-height: 100vh;
+}
+
+/* Smooth page transitions */
+main > div {
+  animation: pageEnter 0.5s var(--ease-elegant) forwards;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--mango-primary);
+  outline-offset: 2px;
+}
+
+/* Link hover transition for all anchor tags */
+a {
+  transition: color 0.2s var(--ease-elegant);
+}
+
+/* Smooth image loading */
+img {
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+img[loading] {
+  opacity: 0;
+}

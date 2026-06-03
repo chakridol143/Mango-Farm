@@ -29,6 +29,63 @@ interface CheckoutItemInput {
   quantity: number;
 }
 
+// Public pricing quote so the storefront can show the exact subtotal / discount /
+// GST / total that will actually be charged (single source of truth = backend math).
+export const getQuote = async (req: AuthRequest, res: Response) => {
+  const rawItems = Array.isArray(req.body?.items) ? req.body.items : [];
+  const parsedItems: CheckoutItemInput[] = [];
+  for (const rawItem of rawItems) {
+    const productId = parsePositiveInt(rawItem?.product_id ?? rawItem?.productId);
+    const quantity = parsePositiveInt(rawItem?.quantity);
+    if (!productId || !quantity) {
+      return res.status(400).json({ message: "Invalid item payload" });
+    }
+    parsedItems.push({ product_id: productId, quantity });
+  }
+
+  if (parsedItems.length === 0) {
+    return res.status(400).json({ message: "No items to quote" });
+  }
+
+  try {
+    const uniqueProductIds = Array.from(new Set(parsedItems.map((i) => i.product_id)));
+    const productMap = await fetchProductsByIds(uniqueProductIds);
+    if (productMap.size !== uniqueProductIds.length) {
+      return res.status(400).json({ message: "One or more products are invalid" });
+    }
+
+    const mrpSubtotalPaise = parsedItems.reduce((sum, item) => {
+      const mrp = productMap.get(item.product_id)?.price ?? 0;
+      return sum + Math.round((Number(mrp) || 0) * 100) * item.quantity;
+    }, 0);
+
+    const { subtotalPaise } = buildPricedItemsAndSubtotal(
+      parsedItems.map((item) => ({
+        productId: item.product_id,
+        quantity: item.quantity,
+        mrpRupees: productMap.get(item.product_id)?.price ?? 0,
+      }))
+    );
+
+    const totals = calculateTotalsFromSubtotal(subtotalPaise, 0);
+    const mrpSubtotal = Math.round(mrpSubtotalPaise) / 100;
+    const round2 = (n: number) => Math.round(n * 100) / 100;
+
+    return res.json({
+      mrpSubtotal,
+      discountedSubtotal: totals.subtotalAmount,
+      productDiscount: round2(mrpSubtotal - totals.subtotalAmount),
+      cgst: totals.cgstAmount,
+      sgst: totals.sgstAmount,
+      tax: round2(totals.cgstAmount + totals.sgstAmount),
+      total: totals.totalAmount,
+    });
+  } catch (error: any) {
+    console.error("QUOTE ERROR:", error?.message || error);
+    return res.status(500).json({ message: "Could not calculate totals" });
+  }
+};
+
 export const checkout = async (req: AuthRequest, res: Response) => {
   const uid = req.user?.uid;
   if (!uid) {

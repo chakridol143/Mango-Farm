@@ -1,34 +1,39 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 export default function Footer() {
   return (
     <footer className="footer">
-      <div className="container footer-content">
-        <div className="footer-logo">
-          <img src="/images/Final_Logo.png" alt="Mango Farm" />
+      <div className="container footer-container">
+        <div className="footer-brand">
+          <Link to="/" className="footer-logo">
+            <img src="/images/Final_Logo.png" alt="MangoFarm" className="footer-logo-img" />
+          </Link>
+          <p className="footer-desc">
+            Delivering the authentic taste of premium Banganapalle mangoes directly from our orchards to your doorstep.
+          </p>
         </div>
         <div className="footer-links">
-          <div>
-            <h4>Shop</h4>
-            <ul>
-              <li><a href="/shop">All Products</a></li>
-              <li><a href="/shop">Fresh Mangoes</a></li>
-              <li><a href="/shop">Pantry</a></li>
-            </ul>
+          <div className="link-group">
+            <h3>Shop</h3>
+            <Link to="/shop">All Products</Link>
+            <Link to="/shop">Fresh Mangoes</Link>
+            <Link to="/shop">Dried Fruits</Link>
+            <Link to="/shop">Puree & Nectar</Link>
           </div>
-          <div>
-            <h4>About</h4>
-            <ul>
-              <li><a href="#">Our Farm</a></li>
-              <li><a href="#">Sustainability</a></li>
-              <li><a href="#">Contact Us</a></li>
-            </ul>
+          <div className="link-group">
+            <h3>Company</h3>
+            <Link to="/about">Our Story</Link>
+            <Link to="/learn">Learn</Link>
+            <Link to="/contact">Contact Us</Link>
           </div>
         </div>
       </div>
       <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Sun & Mango (Mango Box). All rights reserved.</p>
+        <div className="container">
+          <p>&copy; {new Date().getFullYear()} MangoFarm. All rights reserved.</p>
+        </div>
       </div>
     </footer>
   );

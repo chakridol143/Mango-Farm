@@ -266,6 +266,60 @@ export const deleteCartItem = async (req: AuthRequest, res: Response) => {
   }
 };
 
+export const syncCart = async (req: AuthRequest, res: Response) => {
+  const uid = req.user?.uid;
+  if (!uid) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const rawItems = Array.isArray(req.body?.items) ? req.body.items : [];
+
+  const desired = new Map<number, number>();
+  for (const rawItem of rawItems) {
+    const productId = parsePositiveInt(rawItem?.productId ?? rawItem?.product_id);
+    const quantity = parsePositiveInt(rawItem?.quantity);
+    if (!productId || !quantity) {
+      return res.status(400).json({ message: "Invalid item payload" });
+    }
+    desired.set(productId, quantity);
+  }
+
+  try {
+    if (desired.size > 0) {
+      const productMap = await fetchProductsByIds(Array.from(desired.keys()));
+      if (productMap.size !== desired.size) {
+        return res.status(400).json({ message: "One or more products are invalid" });
+      }
+    }
+
+    const collection = cartCollection(uid);
+    const existing = await collection.get();
+    const batch = firestore.batch();
+    const now = Timestamp.now();
+
+    existing.docs.forEach((doc) => {
+      if (!desired.has(Number(doc.id))) {
+        batch.delete(doc.ref);
+      }
+    });
+
+    desired.forEach((quantity, productId) => {
+      batch.set(
+        collection.doc(String(productId)),
+        { product_id: productId, quantity, added_at: now, updated_at: now },
+        { merge: true }
+      );
+    });
+
+    await batch.commit();
+    const rows = await getCartRowsForUser(uid);
+    return res.json(rows);
+  } catch (error) {
+    console.error("SYNC CART ERROR:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
 export async function clearUserCart(uid: string): Promise<void> {
   const snap = await cartCollection(uid).get();
   if (snap.empty) return;

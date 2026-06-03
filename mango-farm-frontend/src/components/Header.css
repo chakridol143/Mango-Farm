@@ -1,99 +1,303 @@
-.header {
+/* ═══════════════════════════════════════════
+   Header — Premium Hanging Logo Design
+   ═══════════════════════════════════════════ */
+
+.navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
+  height: 85px;
   z-index: 100;
-  padding: 2rem 0;
-  transition: padding 0.5s ease, background 0.5s ease;
-  border-bottom: 1px solid transparent;
+  background: 
+    url("data:image/svg+xml,%3Csvg width='1440' height='85' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M-10,42 C 300,85 500,0 800,42 C 1100,85 1300,0 1500,42' fill='none' stroke='rgba(255,255,255,0.2)' stroke-width='1.5'/%3E%3Cpath d='M-10,55 C 250,5 500,90 800,45 C 1100,5 1300,85 1500,55' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'/%3E%3C/svg%3E"),
+    linear-gradient(135deg, #FFB03A 0%, #F58A07 100%);
+  background-size: cover;
+  background-position: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 20px rgba(245, 138, 7, 0.3);
+  transition: all 0.4s var(--ease-elegant);
 }
 
-.header.scrolled {
-  background: rgba(240, 230, 218, 0.95);
-  backdrop-filter: blur(10px);
-  padding: 1.25rem 0;
-  border-bottom: 1px solid var(--color-border);
+.navbar.scrolled {
+  height: 70px;
+  background: 
+    url("data:image/svg+xml,%3Csvg width='1440' height='70' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M-10,35 C 300,70 500,0 800,35 C 1100,70 1300,0 1500,35' fill='none' stroke='rgba(255,255,255,0.15)' stroke-width='1.5'/%3E%3C/svg%3E"),
+    rgba(245, 138, 7, 0.95);
+  background-size: cover;
+  background-position: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px rgba(245, 138, 7, 0.3);
 }
 
-.header-container {
+.nav-container {
+  height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
-.header-left, .header-right {
+/* ── Hanging Logo Container ── */
+.logo-container {
+  position: absolute;
+  top: 0;
+  left: 1.5rem;
+  background: var(--surface-white);
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   display: flex;
+  justify-content: center;
   align-items: center;
-  flex: 1;
+  transition: transform 0.3s var(--ease-elegant), padding 0.4s, background 0.4s;
+  z-index: 101;
 }
 
-.header-right {
-  justify-content: flex-end;
-  gap: 2rem;
+.navbar.scrolled .logo-container {
+  background: var(--surface-white);
+  padding: 0.5rem 1.25rem 1rem 1.25rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.editorial-logo {
-  font-family: var(--font-serif);
-  font-weight: 800;
-  font-size: 1.5rem;
-  letter-spacing: 0.1em;
-  color: var(--color-olive);
+.logo-container:hover {
+  transform: translateY(2px);
 }
 
+.header-logo-img {
+  height: 65px; /* Slightly smaller to prevent upscaling blur */
+  width: auto;
+  object-fit: contain;
+  transition: height 0.4s var(--ease-elegant);
+  image-rendering: -webkit-optimize-contrast; /* Maximize crispness */
+  transform: translateZ(0);
+}
+
+.navbar.scrolled .header-logo-img {
+  height: 55px;
+}
+
+/* ── Navigation Links (Centered) ── */
 .nav-links {
-  display: none;
-}
-
-.nav-link-desktop {
   display: none;
 }
 
 @media (min-width: 768px) {
   .nav-links {
     display: flex;
-    gap: 2.5rem;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 3rem;
   }
-  
-  .nav-links a, .nav-link-desktop, .cart-btn {
-    font-weight: 500;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-olive);
-    transition: opacity 0.3s ease;
-  }
-  
-  .nav-links a:hover, .nav-link-desktop:hover, .cart-btn:hover {
-    opacity: 0.6;
-  }
-  
-  .nav-link-desktop {
-    display: block;
-  }
-  
+}
+
+.nav-links a {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--surface-white);
+  position: relative;
+  transition: color 0.2s;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.nav-links a:hover {
+  color: #2E7D32;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: #2E7D32;
+  transition: width 0.3s var(--ease-elegant);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* ── Right Actions ── */
+.nav-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.icon-btn, .cart-btn, .menu-btn {
+  background: none;
+  border: none;
+  color: var(--surface-white);
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.icon-btn:hover, .cart-btn:hover, .menu-btn:hover {
+  transform: translateY(-2px);
+  color: #2E7D32;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--surface-white);
+  color: var(--mango-primary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  height: 18px;
+  min-width: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+@media (min-width: 768px) {
   .menu-btn {
     display: none;
   }
 }
 
-.cart-btn {
+/* ── Mobile Navigation ── */
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #F58A07 0%, #E67E00 100%);
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 20px rgba(245, 138, 7, 0.2);
+}
+
+.mobile-nav a {
+  display: block;
+  padding: 1.25rem 2rem;
+  color: var(--surface-white);
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s, color 0.2s, padding-left 0.3s;
+}
+
+.mobile-nav a:hover {
+  background: rgba(46, 125, 50, 0.15);
+  color: #2E7D32;
+  padding-left: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .mobile-nav {
+    display: none !important;
+  }
+}
+
+/* ── Mobile Tweaks ── */
+@media (max-width: 767px) {
+  .logo-container {
+    left: 1rem;
+    padding: 0.5rem 1rem 1rem 1rem;
+    border-radius: 0 0 16px 16px;
+  }
+  .header-logo-img {
+    height: 55px;
+  }
+  .navbar.scrolled .logo-container {
+    padding: 0.25rem 0.75rem 0.75rem 0.75rem;
+  }
+  .navbar.scrolled .header-logo-img {
+    height: 45px;
+  }
+}
+
+/* Account Menu */
+.account-menu {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-weight: 500;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-olive);
 }
 
-.cart-count {
-  font-family: var(--font-serif);
-  font-style: italic;
+.account-trigger {
+  gap: 0.45rem;
+}
+
+.account-name {
+  font-size: 0.85rem;
   font-weight: 600;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.menu-btn {
-  color: var(--color-olive);
+@media (max-width: 767px) {
+  .account-name {
+    display: none;
+  }
+}
+
+.account-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  min-width: 180px;
+  background: var(--surface-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-float);
+  border: 1px solid rgba(40, 54, 24, 0.08);
+  padding: 0.5rem;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+}
+
+.account-dropdown a,
+.account-dropdown button {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: var(--font-body);
+  color: var(--ink-charcoal);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s;
+}
+
+.account-dropdown a:hover,
+.account-dropdown button:hover {
+  background: var(--bg-sand);
+}
+
+.mobile-logout {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 1.25rem 2rem;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--surface-white);
+  font-weight: 600;
+  font-size: 1.1rem;
+  font-family: var(--font-body);
+  cursor: pointer;
 }

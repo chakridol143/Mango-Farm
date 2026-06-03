@@ -7,6 +7,7 @@ import {
   deleteCartItem,
   getcartByUserId,
   getcartByUserIdFromToken,
+  syncCart,
 } from "../controller/cart.controller";
 import { verifyToken } from "../middlewares/auth";
 
@@ -17,6 +18,7 @@ router.get("/user/me", verifyToken, getcartByUserIdFromToken);
 router.get("/user/:user_Id", verifyToken, getcartByUserId);
 
 // 🔐 protected routes
+router.post("/sync", verifyToken, syncCart);
 router.get("/", verifyToken, getAllCartItems);
 router.post("/", verifyToken, addCartItem);
 router.put("/:id", verifyToken, updateCartItem);

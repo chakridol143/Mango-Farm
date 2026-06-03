@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
 
 const CartContext = createContext();
+const CART_KEY = 'mf_cart';
 
 export const useCart = () => useContext(CartContext);
 
@@ -35,8 +36,27 @@ const cartReducer = (state, action) => {
   }
 };
 
+function initCart() {
+  try {
+    const raw = localStorage.getItem(CART_KEY);
+    const items = raw ? JSON.parse(raw) : [];
+    return { items: Array.isArray(items) ? items : [], isOpen: false };
+  } catch {
+    return { items: [], isOpen: false };
+  }
+}
+
 export const CartProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, { items: [], isOpen: false });
+  const [state, dispatch] = useReducer(cartReducer, undefined, initCart);
+
+  // Persist cart items (not the open/closed UI state) across reloads.
+  useEffect(() => {
+    try {
+      localStorage.setItem(CART_KEY, JSON.stringify(state.items));
+    } catch {
+      /* ignore quota / serialization errors */
+    }
+  }, [state.items]);
 
   const total = state.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const count = state.items.reduce((sum, item) => sum + item.quantity, 0);

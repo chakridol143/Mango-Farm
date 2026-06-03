@@ -1,0 +1,532 @@
+/* ═══════════════════════════════════════════
+   Learn — MangoFarm
+   ═══════════════════════════════════════════ */
+
+.learn-page {
+  overflow: hidden;
+}
+
+/* ── Hero ── */
+.learn-hero {
+  padding: 12rem 0 6rem;
+  background: radial-gradient(circle at 25% 25%, rgba(255, 195, 0, 0.18) 0%, var(--bg-cream) 55%);
+  text-align: center;
+}
+
+.learn-hero-inner {
+  max-width: 860px;
+}
+
+.learn-hero-title {
+  font-size: 3rem;
+  line-height: 1.08;
+  margin: 0.5rem 0 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .learn-hero-title {
+    font-size: 4.25rem;
+  }
+}
+
+.learn-hero-desc {
+  font-size: 1.2rem;
+  color: var(--ink-slate);
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: 1.75;
+}
+
+/* ── Quick Guides ── */
+.learn-guides {
+  background: var(--surface-white);
+}
+
+.learn-guides-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+}
+
+@media (min-width: 600px) {
+  .learn-guides-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .learn-guides-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.learn-guide-card {
+  background: var(--bg-cream);
+  border: 1px solid rgba(40, 54, 24, 0.06);
+  border-radius: var(--radius-md);
+  padding: 2.25rem 1.75rem;
+  transition: transform 0.4s var(--ease-elegant), box-shadow 0.4s var(--ease-elegant);
+}
+
+.learn-guide-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-float);
+}
+
+.learn-guide-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  display: grid;
+  place-items: center;
+  background: rgba(245, 138, 7, 0.12);
+  color: var(--mango-primary);
+  margin-bottom: 1.25rem;
+}
+
+.learn-guide-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.6rem;
+}
+
+.learn-guide-card p {
+  color: var(--ink-slate);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+/* ── Varieties ── */
+.learn-varieties {
+  background: var(--bg-sand);
+}
+
+.learn-variety-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .learn-variety-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.learn-variety-card {
+  background: var(--surface-white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.4s var(--ease-elegant), box-shadow 0.4s var(--ease-elegant);
+  display: flex;
+  flex-direction: column;
+}
+
+.learn-variety-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-float);
+}
+
+.learn-variety-card.featured {
+  border: 1.5px solid rgba(245, 138, 7, 0.35);
+}
+
+.learn-variety-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--bg-sand);
+  overflow: hidden;
+}
+
+.learn-variety-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease-elegant);
+}
+
+.learn-variety-card:hover .learn-variety-media img {
+  transform: scale(1.06);
+}
+
+.learn-variety-tag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: var(--mango-primary);
+  color: var(--surface-white);
+  padding: 0.35rem 0.8rem;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 10px rgba(245, 138, 7, 0.3);
+}
+
+.learn-variety-body {
+  padding: 1.5rem 1.75rem 2rem;
+  flex: 1;
+}
+
+.learn-variety-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.learn-variety-head h3 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.learn-variety-season {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--mango-primary);
+  white-space: nowrap;
+}
+
+.learn-variety-body p {
+  color: var(--ink-slate);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Ripening Guide ── */
+.learn-ripen {
+  background: var(--surface-white);
+}
+
+.learn-ripen-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+}
+
+@media (min-width: 600px) {
+  .learn-ripen-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .learn-ripen-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.learn-ripen-step {
+  position: relative;
+  text-align: center;
+  padding: 2.5rem 1.5rem 2rem;
+  background: var(--bg-cream);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(40, 54, 24, 0.06);
+}
+
+.learn-ripen-num {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--leaf-dark);
+  color: var(--mango-gold);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.learn-ripen-icon {
+  color: var(--mango-primary);
+  margin-bottom: 1rem;
+}
+
+.learn-ripen-step h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.learn-ripen-step p {
+  color: var(--ink-slate);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.learn-carbide-note {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  margin-top: 3rem;
+  padding: 1.75rem 2rem;
+  background: rgba(96, 108, 56, 0.08);
+  border-left: 4px solid var(--leaf-medium);
+  border-radius: var(--radius-md);
+}
+
+.learn-carbide-note svg {
+  color: var(--leaf-medium);
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.learn-carbide-note h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.learn-carbide-note p {
+  color: var(--ink-slate);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Nutrition ── */
+.learn-nutrition {
+  background: var(--leaf-dark);
+  padding: 5rem 0;
+}
+
+.learn-nutrition-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .learn-nutrition-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+.learn-subtitle-light {
+  color: var(--mango-gold);
+}
+
+.learn-nutrition-text h2 {
+  color: var(--surface-white);
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.learn-nutrition-text p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.learn-nutrition-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.learn-nutrition-stat {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+}
+
+.learn-nutrition-value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--mango-gold);
+  line-height: 1;
+}
+
+.learn-nutrition-label {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ── Recipes ── */
+.learn-recipes {
+  background: var(--bg-cream);
+}
+
+.learn-recipe-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .learn-recipe-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.learn-recipe-card {
+  background: var(--surface-white);
+  border-radius: var(--radius-md);
+  padding: 2rem 1.75rem;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(40, 54, 24, 0.05);
+  transition: transform 0.4s var(--ease-elegant), box-shadow 0.4s var(--ease-elegant);
+}
+
+.learn-recipe-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-float);
+}
+
+.learn-recipe-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.learn-recipe-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  display: grid;
+  place-items: center;
+  background: rgba(245, 138, 7, 0.12);
+  color: var(--mango-primary);
+}
+
+.learn-recipe-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--leaf-medium);
+  background: rgba(96, 108, 56, 0.1);
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-full);
+}
+
+.learn-recipe-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.learn-recipe-card p {
+  color: var(--ink-slate);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── FAQ ── */
+.learn-faq {
+  background: var(--surface-white);
+}
+
+.learn-faq-inner {
+  max-width: 820px;
+}
+
+.learn-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.learn-faq-item {
+  border: 1px solid rgba(40, 54, 24, 0.1);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background: var(--bg-cream);
+}
+
+.learn-faq-item.open {
+  border-color: rgba(245, 138, 7, 0.4);
+  box-shadow: var(--shadow-soft);
+}
+
+.learn-faq-q {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  text-align: left;
+  padding: 1.4rem 1.6rem;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--leaf-dark);
+}
+
+.learn-faq-chevron {
+  flex-shrink: 0;
+  color: var(--mango-primary);
+  transition: transform 0.3s var(--ease-elegant);
+}
+
+.learn-faq-item.open .learn-faq-chevron {
+  transform: rotate(180deg);
+}
+
+.learn-faq-a-wrap {
+  overflow: hidden;
+}
+
+.learn-faq-a {
+  padding: 0 1.6rem 1.5rem;
+  color: var(--ink-slate);
+  font-size: 0.98rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── CTA ── */
+.learn-cta {
+  background: var(--bg-sand);
+}
+
+.learn-cta-box {
+  background: linear-gradient(135deg, var(--mango-primary), var(--mango-gold));
+  border-radius: var(--radius-lg);
+  padding: 4rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.learn-cta-box h2 {
+  color: var(--surface-white);
+  font-size: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.learn-cta-box p {
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 500px;
+  margin: 0 auto 2rem;
+  font-size: 1.05rem;
+}
+
+.learn-cta-box .btn-primary {
+  background: var(--leaf-dark);
+  color: var(--surface-white);
+}
+
+.learn-cta-box .btn-primary:hover {
+  background: var(--surface-white);
+  color: var(--leaf-dark);
+}

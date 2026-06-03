@@ -29,7 +29,7 @@ const products = [
     name: "Alphonso Premium Box",
     description: "A luxurious wooden crate filled with perfect, ripe, glowing Alphonso mangoes. Hand-picked from our sun-kissed farms for the ultimate sweetness.",
     price: 49.99,
-    image: "http://localhost:5173/images/box.png",
+    image: "/images/box.png",
     category: "Fresh Fruit",
     stock: 100
   },
@@ -38,7 +38,7 @@ const products = [
     name: "Artisan Mango Jam",
     description: "Sleek, premium artisan glass jar of glowing golden mango jam. Made with 100% organic mangoes and no artificial preservatives.",
     price: 14.99,
-    image: "http://localhost:5173/images/jam.png",
+    image: "/images/jam.png",
     category: "Pantry",
     stock: 50
   },
@@ -47,7 +47,7 @@ const products = [
     name: "Sliced Mango Platter",
     description: "Perfectly sliced, ready-to-eat Alphonso mangoes served fresh. A vivid contrast of flavor and aesthetics.",
     price: 24.99,
-    image: "http://localhost:5173/images/sliced.png",
+    image: "/images/sliced.png",
     category: "Ready to Eat",
     stock: 20
   },
@@ -56,7 +56,7 @@ const products = [
     name: "Farm Fresh Harvest",
     description: "A vibrant collection of the finest mangoes straight from the heart of our farms. Rich greens and bright oranges.",
     price: 39.99,
-    image: "http://localhost:5173/images/hero.png",
+    image: "/images/hero.png",
     category: "Fresh Fruit",
     stock: 200
   }

@@ -4,7 +4,7 @@ import { join } from 'path';
 
 dotenv.config({ path: join(__dirname, '../../.env') });
 
-const serviceAccountStr = process.env.FIREBASE_PRIVATE_KEY 
+const serviceAccountStr = process.env.FIREBASE_PRIVATE_KEY
   ? process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
   : undefined;
 
@@ -23,14 +23,21 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
+type Cat = { id: number; name: string };
+const CATEGORY_BY_PID: Record<number, Cat> = {
+  1: { id: 1, name: 'Fresh Mangoes' },
+  2: { id: 4, name: 'Pantry & Gourmet' },
+  3: { id: 1, name: 'Fresh Mangoes' },
+  4: { id: 1, name: 'Fresh Mangoes' },
+};
+
 const products = [
   {
     id: "prod_1",
     name: "Alphonso Premium Box",
     description: "A luxurious wooden crate filled with perfect, ripe, glowing Alphonso mangoes. Hand-picked from our sun-kissed farms for the ultimate sweetness.",
     price: 49.99,
-    image: "http://localhost:5173/images/box.png",
-    category: "Fresh Fruit",
+    image: "/images/box.png",
     stock: 100
   },
   {
@@ -38,8 +45,7 @@ const products = [
     name: "Artisan Mango Jam",
     description: "Sleek, premium artisan glass jar of glowing golden mango jam. Made with 100% organic mangoes and no artificial preservatives.",
     price: 14.99,
-    image: "http://localhost:5173/images/jam.png",
-    category: "Pantry",
+    image: "/images/jam.png",
     stock: 50
   },
   {
@@ -47,8 +53,7 @@ const products = [
     name: "Sliced Mango Platter",
     description: "Perfectly sliced, ready-to-eat Alphonso mangoes served fresh. A vivid contrast of flavor and aesthetics.",
     price: 24.99,
-    image: "http://localhost:5173/images/sliced.png",
-    category: "Ready to Eat",
+    image: "/images/sliced.png",
     stock: 20
   },
   {
@@ -56,8 +61,7 @@ const products = [
     name: "Farm Fresh Harvest",
     description: "A vibrant collection of the finest mangoes straight from the heart of our farms. Rich greens and bright oranges.",
     price: 39.99,
-    image: "http://localhost:5173/images/hero.png",
-    category: "Fresh Fruit",
+    image: "/images/hero.png",
     stock: 200
   }
 ];
@@ -66,17 +70,21 @@ async function seed() {
   console.log("Seeding Firestore...");
   const batch = db.batch();
   for (const prod of products) {
+    const pid = parseInt(prod.id.replace('prod_', ''), 10);
+    const cat = CATEGORY_BY_PID[pid] || { id: 1, name: 'Fresh Mangoes' };
     const ref = db.collection('products').doc(prod.id);
     batch.set(ref, {
       id: prod.id,
-      product_id: parseInt(prod.id.replace('prod_', '')),
+      product_id: pid,
       name: prod.name,
       description: prod.description,
       price: prod.price,
-      image_url: prod.image, 
-      category_id: 1, 
+      image_url: prod.image,
+      category_id: cat.id,
+      category_name: cat.name,
+      category: cat.name,
       stock_quantity: prod.stock,
-      is_active: 1
+      is_active: true
     });
   }
   await batch.commit();

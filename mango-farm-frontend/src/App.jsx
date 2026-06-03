@@ -2,13 +2,21 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Lenis from '@studio-freight/lenis';
 import { CartProvider } from './context/CartContext';
+import { AuthProvider } from './context/AuthContext';
+import BootSplash from './components/BootSplash';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import CartDrawer from './components/CartDrawer';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import ProductDetails from './pages/ProductDetails';
 import Checkout from './pages/Checkout';
+import Auth from './pages/Auth';
+import Orders from './pages/Orders';
+import About from './pages/About';
+import Learn from './pages/Learn';
+import Contact from './pages/Contact';
 import './App.css';
 
 function App() {
@@ -25,6 +33,9 @@ function App() {
       infinite: false,
     });
 
+    // Expose the instance so ScrollToTop can reset it on route changes.
+    window.__lenis = lenis;
+
     function raf(time) {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -33,26 +44,36 @@ function App() {
 
     return () => {
       lenis.destroy();
+      window.__lenis = null;
     };
   }, []);
 
   return (
-    <CartProvider>
-      <Router>
-        <Header />
-        <CartDrawer />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/shop" element={<Shop />} />
-            <Route path="/shop/:id" element={<ProductDetails />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="*" element={<Home />} />
-          </Routes>
-        </main>
-        <Footer />
-      </Router>
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <Router>
+          <ScrollToTop />
+          <BootSplash />
+          <Header />
+          <CartDrawer />
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="/shop/:id" element={<ProductDetails />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/learn" element={<Learn />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/login" element={<Auth />} />
+              <Route path="/orders" element={<Orders />} />
+              <Route path="*" element={<Home />} />
+            </Routes>
+          </main>
+          <Footer />
+        </Router>
+      </CartProvider>
+    </AuthProvider>
   );
 }
 

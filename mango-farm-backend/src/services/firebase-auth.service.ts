@@ -127,6 +127,16 @@ function mapFirebaseIdentityToolkitError(error: unknown): AuthFlowError {
           firebaseMessage
         );
       default:
+        // A bad/placeholder FIREBASE_WEB_API_KEY surfaces here as "API key not valid".
+        // This is a server-config problem, not a user error — report it as a 500 with
+        // a clear signal so it isn't mistaken for invalid credentials.
+        if (/api key not valid/i.test(firebaseMessage)) {
+          return new AuthFlowError(
+            "Login is misconfigured on the server: FIREBASE_WEB_API_KEY is invalid or missing.",
+            500,
+            "INVALID_FIREBASE_WEB_API_KEY"
+          );
+        }
         if (firebaseMessage) {
           return new AuthFlowError(`Firebase login failed: ${firebaseMessage}`, 400, firebaseMessage);
         }
