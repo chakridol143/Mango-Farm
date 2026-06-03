@@ -153,7 +153,13 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
 });
 
 const PORT = Number(process.env.PORT) || 3000;
+const HOST = process.env.HOST || "0.0.0.0";
 
-app.listen(PORT, "::", () => {
-  console.log("Mango Farm backend running on port", PORT, "bound to :: (IPv6/IPv4)");
+const server = app.listen(PORT, HOST, () => {
+  console.log(`[server] Mango Farm backend listening on ${HOST}:${PORT}`);
+});
+
+server.on("error", (err) => {
+  console.error("[FATAL] http server error:", err);
+  process.exit(1);
 });
