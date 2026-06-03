@@ -53,7 +53,7 @@ const defaultAllowedOrigins = [
   "http://localhost:4200",
 ];
 
-const envAllowedOrigins = String(process.env.CORS_ALLOWED_ORIGINS || "")
+const envAllowedOrigins = String(getEnvValue("CORS_ALLOWED_ORIGINS") || "")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);

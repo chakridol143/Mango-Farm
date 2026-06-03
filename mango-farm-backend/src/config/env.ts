@@ -16,7 +16,10 @@ function getCandidates(key: string): readonly string[] {
 
 export function getEnvValue(key: string): string {
   for (const candidate of getCandidates(key)) {
-    const value = String(process.env[candidate] || "").trim();
+    let value = String(process.env[candidate] || "").trim();
+    if (value.startsWith('"') && value.endsWith('"')) {
+      value = value.slice(1, -1).trim();
+    }
     if (value) {
       return value;
     }
