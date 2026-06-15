@@ -215,6 +215,14 @@ export const razorpayWebhook = async (req: Request, res: Response) => {
         const orderSnap = await tx.get(orderRef);
         if (!orderSnap.exists) return;
         const order = orderSnap.data() as Record<string, unknown>;
+        // Never mark PAID if the captured amount/currency doesn't match the order.
+        const expectedPaise = Math.round((Number(order.total_amount) || 0) * 100);
+        if (amountInPaise !== expectedPaise || currency !== "INR") {
+          console.warn(
+            `Webhook amount mismatch for order ${resolvedOrderId}: got ${amountInPaise} ${currency}, expected ${expectedPaise} INR`
+          );
+          return;
+        }
         if (order.status === "PENDING_PAYMENT") {
           tx.update(orderRef, {
             status: "PAID",

@@ -99,8 +99,7 @@ export const verifyPaymentService = async (
       signatureValid =
         providerPayment?.id === normalizedRazorpayPaymentId &&
         providerPayment?.order_id === normalizedRazorpayOrderId &&
-        (providerPayment?.status === "captured" ||
-          providerPayment?.status === "authorized");
+        providerPayment?.status === "captured";
     } catch {
       signatureValid = false;
     }
@@ -149,9 +148,19 @@ export const verifyPaymentService = async (
     }
   }
 
-  const amountInPaise = Number.isFinite(Number(providerPayment?.amount))
-    ? Number(providerPayment.amount)
-    : Math.round((Number(order.total_amount) || 0) * 100);
+  // Never mark an order PAID for a different amount than it expects. When we
+  // have Razorpay's record of the payment, its captured amount and currency
+  // MUST match the server-computed order total.
+  const expectedPaise = Math.round((Number(order.total_amount) || 0) * 100);
+  if (providerPayment) {
+    const paidPaise = Number(providerPayment.amount);
+    const paidCurrency = String(providerPayment.currency || "").toUpperCase();
+    if (!Number.isFinite(paidPaise) || paidPaise !== expectedPaise || paidCurrency !== "INR") {
+      throw new Error("Invalid payment amount");
+    }
+  }
+
+  const amountInPaise = providerPayment ? Number(providerPayment.amount) : expectedPaise;
   const currency = String(providerPayment?.currency || "INR").toUpperCase();
   const idempotencyKey = `rzp_verify_${normalizedRazorpayPaymentId}`.slice(0, 64);
 

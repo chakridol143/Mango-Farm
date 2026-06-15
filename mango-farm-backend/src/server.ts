@@ -46,11 +46,10 @@ console.log("Database config detected:", {
   port: getEnvValue("DB_PORT") || "3306",
 });
 
+// Production frontend (Vercel). Add more via the CORS_ALLOWED_ORIGINS env var.
+// Any localhost/127.0.0.1 origin is also allowed (see isLocalDevOrigin) for dev.
 const defaultAllowedOrigins = [
-  "https://mangofarm.com",
-  "https://www.mangofarm.com",
-  "https://api.mangofarm.com",
-  "http://localhost:4200",
+  "https://mango-farm-gules.vercel.app",
 ];
 
 const envAllowedOrigins = String(getEnvValue("CORS_ALLOWED_ORIGINS") || "")

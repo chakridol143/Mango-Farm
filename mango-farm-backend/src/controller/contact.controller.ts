@@ -82,7 +82,7 @@ ${payload.message.trim()}
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:680px;margin:0 auto;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;">
     <tr>
       <td style="background:#00b7bb;padding:20px 24px;color:#ffffff;">
-        <div style="font-size:22px;font-weight:700;letter-spacing:0.2px;">Life Ionizers</div>
+        <div style="font-size:22px;font-weight:700;letter-spacing:0.2px;">Mango Farm</div>
         <div style="font-size:13px;opacity:0.95;margin-top:6px;">New Contact Form Enquiry</div>
       </td>
     </tr>
@@ -364,8 +364,13 @@ export const submitContact = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Invalid contact payload" });
   }
 
-  const toAddress =
-    process.env.CONTACT_TO_EMAIL || "shurya.kumar478@gmail.com";
+  const toAddress = String(process.env.CONTACT_TO_EMAIL || "").trim();
+  if (!toAddress) {
+    console.error("CONTACT_TO_EMAIL is not configured — cannot deliver contact enquiry");
+    return res.status(503).json({
+      message: "Contact form is temporarily unavailable. Please email us directly.",
+    });
+  }
   const payload = req.body as ContactPayload;
   const hasBrevo = Boolean(String(process.env.BREVO_API_KEY || "").trim());
 
