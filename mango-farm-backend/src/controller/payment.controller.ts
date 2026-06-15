@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import crypto from "crypto";
 import { Timestamp } from "firebase-admin/firestore";
 import { firestore } from "../config/firebase";
+import { getEnvValue } from "../config/env";
 import { AuthRequest } from "../middlewares/auth";
 import {
   createRazorpayOrderService,
@@ -38,7 +39,7 @@ export const createPaymentOrder = async (req: AuthRequest, res: Response) => {
     const order = await createRazorpayOrderService(orderId, uid);
 
     return res.json({
-      key_id: process.env.RAZORPAY_KEY_ID,
+      key_id: getEnvValue("RAZORPAY_KEY_ID"),
       razorpay_order_id: order.id,
       amount: order.amount,
       currency: order.currency,
@@ -119,7 +120,7 @@ export const verifyPayment = async (req: AuthRequest, res: Response) => {
 
 export const razorpayWebhook = async (req: Request, res: Response) => {
   try {
-    const secret = process.env.RAZORPAY_WEBHOOK_SECRET as string;
+    const secret = getEnvValue("RAZORPAY_WEBHOOK_SECRET");
     const signature = String(req.headers["x-razorpay-signature"] || "");
 
     if (!secret) {

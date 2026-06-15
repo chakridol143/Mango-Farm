@@ -1,10 +1,14 @@
 import Razorpay from "razorpay";
+import { getEnvValue } from "./env";
 
 let razorpayClient: Razorpay | null = null;
 
 export const getRazorpayClient = (): Razorpay => {
-  const keyId = String(process.env.RAZORPAY_KEY_ID || "").trim();
-  const keySecret = String(process.env.RAZORPAY_KEY_SECRET || "").trim();
+  // Read through getEnvValue so literal surrounding quotes added by some hosts
+  // (e.g. Railway) are stripped — otherwise Razorpay rejects the credentials
+  // with a 401 "Authentication failed".
+  const keyId = getEnvValue("RAZORPAY_KEY_ID");
+  const keySecret = getEnvValue("RAZORPAY_KEY_SECRET");
 
   if (!keyId || !keySecret) {
     throw new Error("Razorpay is not configured. Missing RAZORPAY_KEY_ID or RAZORPAY_KEY_SECRET");

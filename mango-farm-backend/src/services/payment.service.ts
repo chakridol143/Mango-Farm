@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase-admin/firestore";
 import crypto from "crypto";
 import getRazorpayClient from "../config/razorpay";
+import { getEnvValue } from "../config/env";
 import { firestore } from "../config/firebase";
 
 const ordersCollection = firestore.collection("orders");
@@ -85,7 +86,7 @@ export const verifyPaymentService = async (
 
   const body = `${normalizedRazorpayOrderId}|${normalizedRazorpayPaymentId}`;
   const expectedSignature = crypto
-    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET as string)
+    .createHmac("sha256", getEnvValue("RAZORPAY_KEY_SECRET"))
     .update(body)
     .digest("hex");
 
