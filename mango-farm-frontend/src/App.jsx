@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import CartDrawer from './components/CartDrawer';
 import ScrollToTop from './components/ScrollToTop';
+import ErrorBoundary from './components/ErrorBoundary';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import ProductDetails from './pages/ProductDetails';
@@ -57,18 +58,20 @@ function App() {
           <Header />
           <CartDrawer />
           <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/shop" element={<Shop />} />
-              <Route path="/shop/:id" element={<ProductDetails />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/learn" element={<Learn />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/login" element={<Auth />} />
-              <Route path="/orders" element={<Orders />} />
-              <Route path="*" element={<Home />} />
-            </Routes>
+            <ErrorBoundary>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/shop" element={<Shop />} />
+                <Route path="/shop/:id" element={<ProductDetails />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/learn" element={<Learn />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/login" element={<Auth />} />
+                <Route path="/orders" element={<Orders />} />
+                <Route path="*" element={<Home />} />
+              </Routes>
+            </ErrorBoundary>
           </main>
           <Footer />
         </Router>
