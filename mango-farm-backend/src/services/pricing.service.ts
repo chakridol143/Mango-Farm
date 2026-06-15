@@ -1,6 +1,10 @@
-const ORDER_DISCOUNT_RATE = Number(process.env.ORDER_DISCOUNT_RATE || 0.2);
-const CGST_RATE = Number(process.env.CGST_RATE || 0.09);
-const SGST_RATE = Number(process.env.SGST_RATE || 0.09);
+// Listed prices already include GST and transport, so by default we apply no
+// automatic discount and add no tax on top — the price charged equals the price
+// shown. (Coupons still work via the checkout flow.) These can be re-enabled
+// later by setting the corresponding env vars.
+const ORDER_DISCOUNT_RATE = Number(process.env.ORDER_DISCOUNT_RATE || 0);
+const CGST_RATE = Number(process.env.CGST_RATE || 0);
+const SGST_RATE = Number(process.env.SGST_RATE || 0);
 
 const toPaise = (rupees: number): number => Math.round((Number(rupees) || 0) * 100);
 const fromPaise = (paise: number): number => Math.round((paise + Number.EPSILON)) / 100;
