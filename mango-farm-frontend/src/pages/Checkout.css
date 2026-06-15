@@ -498,3 +498,26 @@
   height: 16px;
   margin: 0;
 }
+
+/* ── Mobile: let the order summary flow normally and tighten spacing ── */
+@media (max-width: 1023px) {
+  .checkout-summary {
+    position: static;
+    top: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .checkout-page {
+    padding-top: 6rem;
+  }
+  .checkout-grid {
+    gap: 2rem;
+  }
+  .checkout-title {
+    font-size: 2rem;
+  }
+  .checkout-summary {
+    padding: 1.5rem;
+  }
+}

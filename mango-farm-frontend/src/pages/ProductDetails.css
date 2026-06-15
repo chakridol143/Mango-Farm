@@ -53,6 +53,22 @@
   top: 6rem;
 }
 
+/* ── Mobile: don't pin the image, shrink its frame, stack trust badges ── */
+@media (max-width: 768px) {
+  .product-details-image {
+    position: static;
+    top: auto;
+  }
+  .image-container {
+    min-height: 280px;
+    padding: 1.5rem;
+  }
+  .trust-badges {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
 .image-container {
   background: var(--surface-white);
   border-radius: var(--radius-lg);

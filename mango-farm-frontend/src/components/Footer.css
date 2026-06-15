@@ -77,3 +77,14 @@
   font-size: 0.85rem;
   color: var(--ink-muted);
 }
+
+/* ── Mobile: stack the link columns ── */
+@media (max-width: 480px) {
+  .footer {
+    padding-top: 3.5rem;
+  }
+  .footer-links {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
