@@ -13,6 +13,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "lint": "eslint . --ext .ts",
     "assets:thumbnails": "ts-node src/scripts/generate-product-thumbnails.ts",
+    "catalog:replace": "ts-node --transpile-only src/scripts/replace-catalog.ts",
     "firestore:migrate": "ts-node src/scripts/migrate-firestore.ts",
     "firestore:verify": "ts-node src/scripts/verify-firestore-migration.ts"
   },
