@@ -47,7 +47,7 @@ const category = {
   name: CATEGORY_NAME,
   slug: CATEGORY_SLUG,
   description:
-    "Naturally ripened, farm-fresh mangoes from Andhra Pradesh — sold by the 10 kg box. All prices include GST and transport.",
+    "Naturally ripened, farm-fresh mangoes from South India — sold by the 10 kg box. All prices include GST and transport.",
   image_url: CATEGORY_IMAGE,
   sort_order: 1,
 };
@@ -91,6 +91,19 @@ const products = [
     price: 1200,
     stock_quantity: 100,
     image_url: "/images/sliced.png", // elegant plated mango slices
+  },
+  {
+    product_id: 4,
+    name: "Rumani Mango — 10 kg Box",
+    slug: "rumani-mango-10kg-box",
+    sub_name: "The Apple Mango",
+    description:
+      "Rumani (Apple Rumani) — a late-season South Indian variety prized for its distinctive round, apple-like shape and golden-yellow skin. Fibre-free, silky and exceptionally juicy with a refreshing sweet-and-tangy flavour. Naturally ripened and delivered as a 10 kg box.",
+    details:
+      "Variety: Rumani (Apple Rumani)\nOrigin: South India (Tamil Nadu / Andhra Pradesh)\nPack: 10 kg box\nRipening: Natural (no carbide)\nPrice includes GST and transport.",
+    price: 1200,
+    stock_quantity: 100,
+    image_url: "/images/hero.png", // whole golden, apple-shaped mango
   },
 ];
 
