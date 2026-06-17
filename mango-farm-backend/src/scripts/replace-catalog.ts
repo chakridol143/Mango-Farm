@@ -103,7 +103,7 @@ const products = [
       "Variety: Rumani (Apple Rumani)\nOrigin: South India (Tamil Nadu / Andhra Pradesh)\nPack: 10 kg box\nRipening: Natural (no carbide)\nPrice includes GST and transport.",
     price: 1200,
     stock_quantity: 100,
-    image_url: "/images/hero.png", // whole golden, apple-shaped mango
+    image_url: "/assets/images/products/mango-rumani.webp", // real Rumani product photo
   },
 ];
 
