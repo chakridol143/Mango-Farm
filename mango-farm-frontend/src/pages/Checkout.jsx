@@ -231,7 +231,7 @@ export default function Checkout() {
             </p>
             <div className="order-success-id">
               <span>Order Reference</span>
-              <strong>#{String(success.orderId).slice(0, 8).toUpperCase()}</strong>
+              <strong>{success.orderId}</strong>
             </div>
             <div className="order-success-actions">
               <Link to="/orders" className="btn btn-primary">

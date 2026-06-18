@@ -10,9 +10,76 @@ import {
   calculateTotalsFromSubtotal,
 } from "./pricing.service";
 import { fetchProductsByIds } from "./product-lookup.service";
+import { postOrderToSheet } from "./sheet-webhook.service";
 
 const ordersCollection = firestore.collection("orders");
 const usersCollection = firestore.collection("users");
+
+/**
+ * Human-friendly order id: SUNANDMANGO-#### (four digits).
+ * Retries on the rare collision so two orders can never share an id.
+ */
+async function generateOrderId(): Promise<string> {
+  for (let attempt = 0; attempt < 12; attempt += 1) {
+    const digits = Math.floor(1000 + Math.random() * 9000); // 1000–9999
+    const candidate = `SUNANDMANGO-${digits}`;
+    const existing = await ordersCollection.doc(candidate).get();
+    if (!existing.exists) return candidate;
+  }
+  // Extremely unlikely fallback — guarantee uniqueness with extra entropy.
+  return `SUNANDMANGO-${Date.now().toString().slice(-6)}`;
+}
+
+/**
+ * Best-effort mirror of a placed order into the Google Sheet. Fire-and-forget:
+ * it owns its own error handling and must never affect the checkout response.
+ */
+async function mirrorOrderToSheet(params: {
+  uid: string;
+  orderId: string;
+  shipping: Record<string, any>;
+  cartLines: CartLineForOrder[];
+  subtotal: number;
+  discount: number;
+  total: number;
+  couponCode: string;
+  paymentMethod: PaymentMethod;
+  status: string;
+}): Promise<void> {
+  try {
+    const userSnap = await usersCollection.doc(params.uid).get();
+    const u = (userSnap.data() || {}) as Record<string, any>;
+    const ship = params.shipping || {};
+    const address = [
+      ship.address,
+      ship.city,
+      [ship.state, ship.postal_code].filter(Boolean).join(" - "),
+      ship.country,
+    ]
+      .filter(Boolean)
+      .join(", ");
+    const items = params.cartLines
+      .map((line) => `${line.name} x${line.quantity}`)
+      .join("; ");
+
+    await postOrderToSheet({
+      orderId: params.orderId,
+      name: String(u.name || ""),
+      email: String(u.email || ""),
+      phone: String(ship.phone || u.phone || ""),
+      address,
+      items,
+      subtotal: params.subtotal,
+      discount: params.discount,
+      total: params.total,
+      coupon: params.couponCode,
+      paymentMethod: params.paymentMethod,
+      status: params.status,
+    });
+  } catch (err) {
+    console.error("Failed to mirror order to sheet:", err);
+  }
+}
 
 interface CreateOrderResult {
   orderId: string;
@@ -119,6 +186,8 @@ class OrderService {
       }))
     );
 
+    const orderId = await generateOrderId();
+
     const result = await firestore.runTransaction(async (tx) => {
       const preCouponTotals = calculateTotalsFromSubtotal(subtotalPaise, 0);
       const appliedCoupon: AppliedCoupon | null = await validateCouponForAmount(
@@ -132,7 +201,7 @@ class OrderService {
         appliedCoupon?.discountAmount || 0
       );
 
-      const orderRef = ordersCollection.doc();
+      const orderRef = ordersCollection.doc(orderId);
       const itemsForStorage = pricedItems.map((priced) => {
         const cartLine = cartLines.find((line) => line.product_id === priced.product_id);
         return {
@@ -169,6 +238,8 @@ class OrderService {
 
       return {
         orderId: orderRef.id,
+        subtotalAmount: totals.subtotalAmount,
+        couponDiscountAmount: totals.couponDiscountAmount,
         totalAmount: totals.totalAmount,
         coupon: appliedCoupon
           ? { code: appliedCoupon.code, discountAmount: totals.couponDiscountAmount }
@@ -179,6 +250,20 @@ class OrderService {
     if (normalizedPaymentMethod === "COD") {
       await clearUserCart(uid);
     }
+
+    // Mirror the placed order into the Google Sheet (fire-and-forget — never blocks checkout).
+    void mirrorOrderToSheet({
+      uid,
+      orderId: result.orderId,
+      shipping: shippingSnap.data() as Record<string, any>,
+      cartLines,
+      subtotal: result.subtotalAmount,
+      discount: result.couponDiscountAmount,
+      total: result.totalAmount,
+      couponCode: result.coupon?.code || "",
+      paymentMethod: normalizedPaymentMethod,
+      status: orderStatus,
+    });
 
     return {
       orderId: result.orderId,

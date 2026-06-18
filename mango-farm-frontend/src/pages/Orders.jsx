@@ -70,7 +70,7 @@ export default function Orders() {
               >
                 <div className="order-card-head">
                   <div>
-                    <span className="order-id">#{order.orderId.slice(0, 8).toUpperCase()}</span>
+                    <span className="order-id">{order.orderId}</span>
                     {order.orderDate && (
                       <span className="order-date">
                         {new Date(order.orderDate).toLocaleDateString('en-IN', {
