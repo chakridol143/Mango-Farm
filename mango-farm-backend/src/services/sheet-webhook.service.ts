@@ -39,3 +39,30 @@ export async function postOrderToSheet(row: OrderSheetRow): Promise<void> {
     console.error("ORDERS SHEET WEBHOOK ERROR:", err?.message || err);
   }
 }
+
+export interface LeadSheetRow {
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+}
+
+/**
+ * Sends a website contact enquiry to the Apps Script, which logs it to the
+ * Leads tab and emails sunandmango@gmail.com. Returns true if the webhook is
+ * configured and accepted it; returns false if not configured (caller may then
+ * fall back to another email provider). Throws on a configured-but-failed call.
+ */
+export async function postLeadToSheet(lead: LeadSheetRow): Promise<boolean> {
+  const url = getEnvValue("ORDERS_SHEET_WEBHOOK_URL");
+  if (!url) return false;
+
+  const token = getEnvValue("SHEET_WEBHOOK_TOKEN");
+  await axios.post(
+    url,
+    { type: "lead", token, ...lead },
+    { timeout: 8000, maxRedirects: 5 }
+  );
+  return true;
+}

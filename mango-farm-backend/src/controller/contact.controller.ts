@@ -2,10 +2,12 @@ import { Request, Response } from "express";
 import axios from "axios";
 import nodemailer from "nodemailer";
 
+import { postLeadToSheet } from "../services/sheet-webhook.service";
+
+// phone is optional on the website form, so it is not required here.
 const REQUIRED_FIELDS: Array<keyof ContactPayload> = [
   "name",
   "email",
-  "phone",
   "subject",
   "message",
 ];
@@ -364,14 +366,33 @@ export const submitContact = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Invalid contact payload" });
   }
 
+  const payload = req.body as ContactPayload;
+
+  // Preferred delivery: the Apps Script logs the enquiry to the Leads sheet and
+  // emails sunandmango@gmail.com. No Brevo/SMTP needed when this is configured.
+  try {
+    const delivered = await postLeadToSheet({
+      name: payload.name,
+      email: payload.email,
+      phone: String(payload.phone || ""),
+      subject: payload.subject,
+      message: payload.message,
+    });
+    if (delivered) {
+      return res.json({ message: "Contact message sent" });
+    }
+  } catch (err) {
+    console.error("CONTACT WEBHOOK ERROR:", (err as any)?.message || err);
+    // fall through to the email providers below if any are configured
+  }
+
   const toAddress = String(process.env.CONTACT_TO_EMAIL || "").trim();
   if (!toAddress) {
-    console.error("CONTACT_TO_EMAIL is not configured — cannot deliver contact enquiry");
+    console.error("CONTACT delivery not configured (no webhook, no CONTACT_TO_EMAIL)");
     return res.status(503).json({
       message: "Contact form is temporarily unavailable. Please email us directly.",
     });
   }
-  const payload = req.body as ContactPayload;
   const hasBrevo = Boolean(String(process.env.BREVO_API_KEY || "").trim());
 
   if (hasBrevo) {

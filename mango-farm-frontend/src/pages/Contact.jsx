@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import {
   Phone, Mail, MapPin, Clock, MessageCircle, Send, CheckCircle2,
 } from 'lucide-react';
+import api from '../api/client';
 import './Contact.css';
 
 /* Brand glyphs as inline SVG (lucide removed brand icons in recent versions). */
@@ -28,12 +29,12 @@ const IconX = (props) => (
 
 /* ── Editable business details — swap these for the client's real info ── */
 const CONTACT = {
-  phone: '+91 98765 43210',
-  phoneHref: 'tel:+919876543210',
-  whatsapp: '+91 98765 43210',
-  whatsappHref: 'https://wa.me/919876543210',
-  email: 'hello@mangofarm.in',
-  emailHref: 'mailto:hello@mangofarm.in',
+  phone: '+91 90528 29111',
+  phoneHref: 'tel:+919052829111',
+  whatsapp: '+91 90528 29111',
+  whatsappHref: 'https://wa.me/919052829111',
+  email: 'sunandmango@gmail.com',
+  emailHref: 'mailto:sunandmango@gmail.com',
   addressLines: ['MangoFarm Orchards', 'Banganapalle, Nandyal District', 'Andhra Pradesh 518124, India'],
   mapsQuery: 'Banganapalle, Andhra Pradesh, India',
 };
@@ -96,7 +97,7 @@ export default function Contact() {
     return next;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const next = validate();
     if (Object.keys(next).length) {
@@ -104,8 +105,21 @@ export default function Contact() {
       return;
     }
     setStatus('submitting');
-    // Front-end demo submit. Wire this to a backend/email service when ready.
-    setTimeout(() => setStatus('success'), 900);
+    try {
+      await api.post('/contact', {
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        subject: form.subject,
+        message: form.message.trim(),
+      });
+      setStatus('success');
+    } catch (err) {
+      setStatus('idle');
+      setErrors({
+        submit: err.response?.data?.message || 'Could not send your message. Please try again.',
+      });
+    }
   };
 
   const fadeUp = {
@@ -234,6 +248,8 @@ export default function Contact() {
                   />
                   {errors.message && <span className="contact-error">{errors.message}</span>}
                 </div>
+
+                {errors.submit && <span className="contact-error">{errors.submit}</span>}
 
                 <button type="submit" className="btn btn-primary contact-submit" disabled={status === 'submitting'}>
                   {status === 'submitting' ? 'Sending…' : <>Send Message <Send size={18} /></>}
