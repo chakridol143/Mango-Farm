@@ -50,6 +50,12 @@ export default function Shop() {
     ? products
     : products.filter((p) => categoryOf(p) === activeFilter);
 
+  // Display order: keep the catalog order, but always show Rumani last.
+  const isRumani = (p) => /rumani/i.test(p.name || '');
+  const orderedProducts = [...filteredProducts].sort(
+    (a, b) => (isRumani(a) ? 1 : 0) - (isRumani(b) ? 1 : 0)
+  );
+
   const handleAddToCart = (product) => {
     dispatch({
       type: 'ADD_ITEM',
@@ -112,7 +118,7 @@ export default function Shop() {
           </div>
         ) : (
           <div className="shop-grid">
-            {filteredProducts.map((product, idx) => (
+            {orderedProducts.map((product, idx) => (
               <motion.div
                 key={product.id || product.product_id || idx}
                 className="product-card"

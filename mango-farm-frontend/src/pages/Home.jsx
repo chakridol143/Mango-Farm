@@ -45,21 +45,16 @@ const fadeUp = {
 
 export default function Home() {
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const { dispatch } = useCart();
 
   useEffect(() => {
-    Promise.all([
-      api.get('/products'),
-      api.get('/categories').catch(() => ({ data: [] })),
-    ])
-      .then(([pRes, cRes]) => {
+    api.get('/products')
+      .then((pRes) => {
         const data = Array.isArray(pRes.data) ? pRes.data : (pRes.data.data || pRes.data.products || []);
         setProducts(data);
-        setCategories(Array.isArray(cRes.data) ? cRes.data : []);
         setLoading(false);
       })
       .catch((err) => {
@@ -69,9 +64,6 @@ export default function Home() {
   }, []);
 
   const featuredProducts = products.slice(0, 3);
-
-  const countFor = (name) =>
-    products.filter((p) => (p.category_name || p.category) === name).length;
 
   const handleAddToCart = (product) => {
     dispatch({
@@ -164,45 +156,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══ Shop by Category ═══ */}
-      {categories.length > 0 && (
-        <section className="section-padding categories-section">
-          <div className="container">
-            <motion.div className="section-header" {...fadeUp} transition={{ duration: 0.7 }}>
-              <span className="subtitle">Explore the Grove</span>
-              <h2 className="title">Shop by Category</h2>
-              <p className="description">
-                From fresh-off-the-tree mangoes to gourmet pantry treasures — find your favourite.
-              </p>
-            </motion.div>
-
-            <div className="categories-grid">
-              {categories.map((cat, i) => (
-                <motion.div
-                  key={cat.category_id || cat.name}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-60px' }}
-                  transition={{ duration: 0.5, delay: i * 0.08 }}
-                >
-                  <Link to={`/shop?category=${encodeURIComponent(cat.name)}`} className="category-card">
-                    <div className="category-image-wrap">
-                      {cat.image_url
-                        ? <img src={cat.image_url} alt={cat.name} />
-                        : <div className="category-image-fallback"><Leaf size={32} /></div>}
-                    </div>
-                    <div className="category-body">
-                      <h3>{cat.name}</h3>
-                      <span className="category-count">{countFor(cat.name)} products</span>
-                      <span className="category-link">Shop now <ArrowRight size={15} /></span>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
+      {/* ═══ Promo Banner ═══ */}
+      <section className="section-padding promo-banner-section">
+        <div className="container">
+          <motion.div className="promo-banner" {...fadeUp} transition={{ duration: 0.7 }}>
+            <Link to="/shop" className="promo-banner-media" aria-label="Shop our mangoes">
+              <img
+                src="/images/promo-banner.jpeg"
+                alt="Naturally ripened Banganapalli mangoes — straight from Chittoor farms"
+              />
+            </Link>
+            <div className="promo-banner-cta">
+              <Link to="/shop" className="btn btn-primary promo-banner-btn">
+                Shop Now <ArrowRight size={18} />
+              </Link>
             </div>
-          </div>
-        </section>
-      )}
+          </motion.div>
+        </div>
+      </section>
 
       {/* ═══ About Section ═══ */}
       <section id="about" className="section-padding about-section">

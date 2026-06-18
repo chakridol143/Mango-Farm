@@ -445,94 +445,64 @@
   color: var(--leaf-dark);
 }
 
-/* ═══ Shop by Category ═══ */
-.categories-section {
+/* ═══ Promo Banner ═══ */
+.promo-banner-section {
   background: var(--bg-cream);
 }
 
-.categories-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+.promo-banner {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  /* room for the button that straddles the banner's bottom edge */
+  padding-bottom: 1.75rem;
 }
 
-@media (min-width: 768px) {
-  .categories-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (min-width: 992px) {
-  .categories-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-}
-
-.category-card {
+.promo-banner-media {
   display: block;
-  background: var(--surface-white);
-  border: 1px solid rgba(40, 54, 24, 0.06);
   border-radius: var(--radius-md);
   overflow: hidden;
-  height: 100%;
-  transition: transform 0.4s var(--ease-elegant), box-shadow 0.4s var(--ease-elegant);
-}
-
-.category-card:hover {
-  transform: translateY(-8px);
   box-shadow: var(--shadow-float);
+  transition: transform 0.4s var(--ease-elegant);
 }
 
-.category-image-wrap {
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  background: var(--bg-sand);
+.promo-banner-media:hover {
+  transform: translateY(-6px);
 }
 
-.category-image-wrap img {
+.promo-banner-media img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s var(--ease-elegant);
-}
-
-.category-card:hover .category-image-wrap img {
-  transform: scale(1.08);
-}
-
-.category-image-fallback {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  place-items: center;
-  color: var(--leaf-light);
-  background: linear-gradient(135deg, var(--bg-sand), var(--mango-light));
-}
-
-.category-body {
-  padding: 1.1rem 1.1rem 1.3rem;
-  text-align: center;
-}
-
-.category-body h3 {
-  font-size: 1.15rem;
-  margin-bottom: 0.2rem;
-}
-
-.category-count {
+  height: auto;
   display: block;
-  font-size: 0.78rem;
-  color: var(--ink-muted);
-  margin-bottom: 0.6rem;
 }
 
-.category-link {
+/* Wrapper owns the positioning transform; the button keeps its own
+   :hover lift transform, so the two never conflict (no flicker). */
+.promo-banner-cta {
+  position: absolute;
+  left: 50%;
+  bottom: 1.75rem;
+  transform: translate(-50%, 50%);
+  z-index: 2;
+}
+
+.promo-banner-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--mango-primary);
+  gap: 0.5rem;
+  white-space: nowrap;
+  box-shadow: 0 16px 34px -12px rgba(40, 54, 24, 0.55);
+}
+
+@media (max-width: 480px) {
+  .promo-banner-cta {
+    bottom: 1.4rem;
+  }
+  .promo-banner-btn {
+    padding: 0.7rem 1.4rem;
+    font-size: 0.9rem;
+  }
 }
 
 /* ═══ Process: From Orchard to Doorstep ═══ */
